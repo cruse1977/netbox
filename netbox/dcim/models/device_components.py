@@ -12,7 +12,7 @@ from dcim.choices import *
 from dcim.constants import *
 from dcim.exceptions import CableTraceSplit
 from dcim.fields import MACAddressField
-from extras.models import ObjectChange, TaggedItem
+from extras.models import ObjectChange, TaggedItem, CustomFieldModel
 from extras.utils import extras_features
 from utilities.fields import NaturalOrderingField
 from utilities.ordering import naturalize_interface
@@ -576,8 +576,8 @@ class PowerOutlet(CableTermination, ComponentModel):
 # Interfaces
 #
 
-@extras_features('graphs', 'export_templates', 'webhooks')
-class Interface(CableTermination, ComponentModel):
+@extras_features('graphs', 'export_templates', 'webhooks', 'custom_fields')
+class Interface(CableTermination, ComponentModel, CustomFieldModel):
     """
     A network interface within a Device or VirtualMachine. A physical Interface can connect to exactly one other
     Interface.
@@ -679,6 +679,12 @@ class Interface(CableTermination, ComponentModel):
         'device', 'virtual_machine', 'name', 'lag', 'type', 'enabled', 'mac_address', 'mtu', 'mgmt_only',
         'description', 'mode',
     ]
+
+    custom_field_values = GenericRelation(
+        to='extras.CustomFieldValue',
+        content_type_field='obj_type',
+        object_id_field='obj_id'
+    )
 
     class Meta:
         # TODO: ordering and unique_together should include virtual_machine

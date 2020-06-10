@@ -2689,7 +2689,7 @@ class InterfaceFilterForm(DeviceComponentFilterForm):
     tag = TagFilterField(model)
 
 
-class InterfaceForm(InterfaceCommonForm, BootstrapMixin, forms.ModelForm):
+class InterfaceForm(InterfaceCommonForm, BootstrapMixin, CustomFieldModelForm):
     untagged_vlan = DynamicModelChoiceField(
         queryset=VLAN.objects.all(),
         required=False,

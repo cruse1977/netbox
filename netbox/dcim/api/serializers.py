@@ -517,7 +517,7 @@ class PowerPortSerializer(TaggitSerializer, ConnectedEndpointSerializer):
         ]
 
 
-class InterfaceSerializer(TaggitSerializer, ConnectedEndpointSerializer):
+class InterfaceSerializer(TaggitSerializer, ConnectedEndpointSerializer, CustomFieldModelSerializer):
     device = NestedDeviceSerializer()
     type = ChoiceField(choices=InterfaceTypeChoices)
     lag = NestedInterfaceSerializer(required=False, allow_null=True)
@@ -538,7 +538,7 @@ class InterfaceSerializer(TaggitSerializer, ConnectedEndpointSerializer):
         fields = [
             'id', 'device', 'name', 'type', 'enabled', 'lag', 'mtu', 'mac_address', 'mgmt_only', 'description',
             'connected_endpoint_type', 'connected_endpoint', 'connection_status', 'cable', 'mode', 'untagged_vlan',
-            'tagged_vlans', 'tags', 'count_ipaddresses',
+            'tagged_vlans', 'tags', 'count_ipaddresses','custom_fields',
         ]
 
     # TODO: This validation should be handled by Interface.clean()
